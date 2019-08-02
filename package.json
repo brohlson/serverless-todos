@@ -1,0 +1,32 @@
+{
+  "name": "serverless-todos",
+  "version": "1.0.0",
+  "description": "A simple serverless Next/Mongo CRUD app",
+  "author": "Chase Ohlson <chase@chaseohlson.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "mongoose": "^5.6.7",
+    "next": "^9.0.3",
+    "now": "^15.8.7",
+    "prettier": "^1.18.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "styled-components": "^4.3.2"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.8.0",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-loader": "^2.2.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3"
+  }
+}
