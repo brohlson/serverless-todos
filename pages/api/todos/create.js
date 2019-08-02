@@ -16,7 +16,7 @@ export default async function handle(req, res) {
     await connectDB();
 
     // Grab the posted data
-    const { name } = body;
+    const { name } = JSON.parse(body);
 
     // Create a new todo
     let todo = new Todo({
@@ -29,6 +29,6 @@ export default async function handle(req, res) {
   } catch (error) {
     // If anything fails here, send server error
     errors.push({ msg: 'Server error' });
-    res.status(500).json({ errors: errors });
+    res.status(400).json({ errors: error });
   }
 }
