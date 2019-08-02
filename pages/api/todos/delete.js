@@ -6,7 +6,7 @@ export default async function handle(req, res) {
   const errors = [];
 
   // Send back generic message if method incorrect
-  if (method !== 'PATCH') {
+  if (method !== 'DELETE') {
     errors.push({ msg: 'Unable to process request' });
     return res.status(400).json({ errors: errors });
   }
@@ -17,25 +17,17 @@ export default async function handle(req, res) {
 
     // Grab the posted data
     const { id } = body;
-    const fields = {};
-    fields._id = id;
-
-    // Top level fields
-    if (body.completed) fields.completed = body.completed;
-    if (body.name) fields.name = body.name;
 
     try {
-      // Find the todo & update it
-      const todo = await Todo.findOneAndUpdate(
-        { _id: fields._id },
-        { $set: fields },
-        { new: true }
-      );
-      // Send it back
-      res.json({ todo: todo });
+      // Delete the todo
+      await Todo.findOneAndRemove({ _id: id });
+      // Find all remaining todos
+      const todos = await Todo.find();
+      // Send them back
+      res.json({ todos: todos });
     } catch (error) {
       // If anything fails here, send error msg
-      errors.push({ msg: 'Could not update todo' });
+      errors.push({ msg: 'Could not delete todo' });
       res.status(400).json({ errors: errors });
     }
   } catch (error) {
