@@ -9,7 +9,8 @@ const Layout = ({ children }) => {
   return (
     <LayoutWrapper>
       <Head>
-        <title>⛈️ Serverless Todos</title>
+        <link rel="icon" href="/static/img/favicon.png" type="image/png" />
+        <title>Serverless Todos</title>
         <link
           key="inter-font-script"
           rel="stylesheet"
