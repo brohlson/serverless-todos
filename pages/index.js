@@ -18,17 +18,21 @@ const baseUrl =
 
 // Styled components
 const Wrapper = styled.div`
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   overflow-hidden;
   display: flex;
   justify-content: center;
   padding: 20px;
+  top: 0;
+  left: 0;
+  position: absolute;
 `;
 
 const Container = styled.div`
   width: 500px;
   max-width: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   border-radius: 7px;
