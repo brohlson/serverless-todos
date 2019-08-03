@@ -16,7 +16,9 @@ export default async function handle(req, res) {
     await connectDB();
 
     // Grab the posted data
-    const { id } = body;
+    const { id } = JSON.parse(body);
+
+    console.log(id);
 
     try {
       // Delete the todo

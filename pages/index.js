@@ -5,6 +5,7 @@ import fetch from 'isomorphic-unfetch';
 
 // Component imports
 import Layout from '../components/Layout';
+import Todo from '../components/Todo';
 
 // Util imports
 import endpoints from '../util/endpoints';
@@ -35,6 +36,7 @@ const Container = styled.div`
   padding: 12px;
   overflow: hidden;
   position: relative;
+  background: white;
 `;
 
 const LoadingIcon = styled.img`
@@ -70,6 +72,7 @@ const InputContainer = styled.div`
   bottom: 0;
   background: white;
   z-index: 10;
+  padding-top: 4px;
   form {
     display: flex;
     input {
@@ -94,7 +97,7 @@ const InputContainer = styled.div`
       span {
         color: white;
         font-size: 20px;
-        font-weight: 900;
+        font-weight: 700;
       }
     }
   }
@@ -107,6 +110,7 @@ const Index = ({ todos }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    if (loading) return null;
     setLoading(true);
     try {
       const res = await fetch(`${baseUrl}${endpoints.todos.create}`, {
@@ -126,6 +130,28 @@ const Index = ({ todos }) => {
     }
   };
 
+  const handleDelete = async id => {
+    if (loading) return null;
+    setLoading(true);
+    try {
+      const res = await fetch(`${baseUrl}${endpoints.todos.delete}`, {
+        method: 'DELETE',
+        body: JSON.stringify({
+          id: id,
+        }),
+      });
+      const data = await res.json();
+      setLoading(false);
+      setLocalTodos(data.todos);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const handleToggle = id => {
+    console.log(id);
+  };
+
   return (
     <Layout>
       <Wrapper>
@@ -138,11 +164,17 @@ const Index = ({ todos }) => {
           <Title>serverless-todos</Title>
           <TodoContainer>
             {localTodos.map(t => (
-              <p key={t._id}>{t.name}</p>
+              <Todo
+                onToggle={() => handleToggle(!t.completed)}
+                onDelete={() => handleDelete(t._id)}
+                key={t._id}
+                name={t.name}
+                completed={t.completed}
+              />
             ))}
           </TodoContainer>
           <InputContainer>
-            <form onSubmit={handleSubmit}>
+            <form disabled={loading} onSubmit={handleSubmit}>
               <input
                 placeholder="Add todo..."
                 onChange={e => setNewTodo(e.target.value)}
@@ -150,7 +182,7 @@ const Index = ({ todos }) => {
                 required
               />
               <button type="submit">
-                <span>+</span>
+                <span>&#10011;</span>
               </button>
             </form>
           </InputContainer>

@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 
-const LayoutWrapper = styled.div``;
+const LayoutWrapper = styled.div`
+  background: #fafafa;
+`;
 
 const Layout = ({ children }) => {
   return (
