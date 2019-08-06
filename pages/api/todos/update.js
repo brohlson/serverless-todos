@@ -16,13 +16,13 @@ export default async function handle(req, res) {
     await db.connect();
 
     // Grab the posted data
-    const { id } = body;
+    const { id, completed, name } = JSON.parse(body);
     const fields = {};
     fields._id = id;
 
     // Top level fields
-    if (body.completed) fields.completed = body.completed;
-    if (body.name) fields.name = body.name;
+    if (String(completed)) fields.completed = completed;
+    if (name) fields.name = name;
 
     try {
       // Find the todo & update it

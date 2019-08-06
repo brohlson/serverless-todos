@@ -152,8 +152,25 @@ const Index = ({ todos }) => {
     }
   };
 
-  const handleToggle = id => {
-    console.log(id);
+  const handleToggle = async (id, completed, index) => {
+    if (loading) return null;
+    setLoading(true);
+    try {
+      const res = await fetch(`${baseUrl}${endpoints.todos.update}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          id: id,
+          completed: completed,
+        }),
+      });
+      const data = await res.json();
+      let newTodos = [...localTodos];
+      newTodos.splice(index, 1, data.todo);
+      setLocalTodos(newTodos);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -167,9 +184,9 @@ const Index = ({ todos }) => {
           />
           <Title>serverless-todos</Title>
           <TodoContainer>
-            {localTodos.map(t => (
+            {localTodos.map((t, i) => (
               <Todo
-                onToggle={() => handleToggle(!t.completed)}
+                onToggle={() => handleToggle(t._id, !t.completed, i)}
                 onDelete={() => handleDelete(t._id)}
                 key={t._id}
                 name={t.name}

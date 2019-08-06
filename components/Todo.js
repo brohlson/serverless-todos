@@ -14,6 +14,8 @@ const Wrapper = styled.div`
   .name {
     flex-grow: 1;
     width: 100%;
+    text-decoration: ${props => props.completed && 'line-through'};
+    opacity: ${props => props.completed && '.5'};
   }
 
   .buttons {
@@ -22,7 +24,7 @@ const Wrapper = styled.div`
     display: flex;
 
     button {
-      background: #0070f3;
+      background: ${props => (props.completed ? '#5d768e' : '#0070f3')};
       border-radius: 4px;
       border: none;
       color: white;
@@ -54,7 +56,7 @@ const Todo = ({ name, completed, onToggle, onDelete }) => {
       </div>
       <div className="buttons">
         <button className="complete" onClick={onToggle}>
-          <span>&#x2713;</span>
+          {completed ? <span>&#128260;</span> : <span>&#x2713;</span>}
         </button>
         <button className="delete" onClick={onDelete}>
           <span>&#10005;</span>
