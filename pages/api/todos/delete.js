@@ -1,4 +1,4 @@
-const connectDB = require('../../../lib/db');
+const db = require('../../../lib/db');
 const Todo = require('../../../lib/models/todo');
 
 export default async function handle(req, res) {
@@ -13,18 +13,21 @@ export default async function handle(req, res) {
 
   try {
     // Connect to DB
-    await connectDB();
+    await db.connect();
 
     // Grab the posted data
     const { id } = JSON.parse(body);
 
-    console.log(id);
-
     try {
       // Delete the todo
       await Todo.findOneAndRemove({ _id: id });
+
       // Find all remaining todos
       const todos = await Todo.find();
+
+      // Close connection
+      await db.disconnect();
+
       // Send them back
       res.json({ todos: todos });
     } catch (error) {

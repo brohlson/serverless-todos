@@ -1,4 +1,4 @@
-const connectDB = require('../../../lib/db');
+const db = require('../../../lib/db');
 const Todo = require('../../../lib/models/todo');
 
 export default async function handle(req, res) {
@@ -13,7 +13,7 @@ export default async function handle(req, res) {
 
   try {
     // Connect to DB
-    await connectDB();
+    await db.connect();
 
     // Grab the posted data
     const { name } = JSON.parse(body);
@@ -23,6 +23,9 @@ export default async function handle(req, res) {
       name: name,
     });
     await todo.save();
+
+    // Close connection
+    await db.disconnect();
 
     // Send back the new todo
     res.json({ todo: todo });
